@@ -4,3 +4,4 @@ matplotlib
 Flask
 numpy
 seaborn
+gunicorn

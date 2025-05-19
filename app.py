@@ -1,12 +1,12 @@
 import pickle
 from flask import Flask, request, app, jsonify, url_for, render_template
-
 import numpy as np
 import pandas as pd
 
-
 app = Flask(__name__)
 
+# load model 
+reg_model = pickle.load(open("regmodel.pkl", 'rb'))
 # load model 
 reg_model = pickle.load(open("regmodel.pkl", 'rb'))
 scalar = pickle.load(open("scaling.pkl", 'rb'))

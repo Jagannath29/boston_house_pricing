@@ -1,48 +1,129 @@
 <!DOCTYPE html>
-<html >
+<html>
 
 <head>
-  <meta charset="UTF-8">
-  <title>ML API</title>
-  <link href='https://fonts.googleapis.com/css?family=Pacifico' rel='stylesheet' type='text/css'>
-<link href='https://fonts.googleapis.com/css?family=Arimo' rel='stylesheet' type='text/css'>
-<link href='https://fonts.googleapis.com/css?family=Hind:300' rel='stylesheet' type='text/css'>
-<link href='https://fonts.googleapis.com/css?family=Open+Sans+Condensed:300' rel='stylesheet' type='text/css'>
-
-  
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Boston House Price Prediction</title>
+    <link href='https://fonts.googleapis.com/css?family=Pacifico' rel='stylesheet' type='text/css'>
+    <link href='https://fonts.googleapis.com/css?family=Arimo' rel='stylesheet' type='text/css'>
+    <link href='https://fonts.googleapis.com/css?family=Hind:300' rel='stylesheet' type='text/css'>
+    <link href='https://fonts.googleapis.com/css?family=Open+Sans+Condensed:300' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
 </head>
 
 <body>
- <div class="login">
-	<h1>Boston House Price Prediction</h1>
+    <div class="container">
+        <div class="prediction-form">
+            <h1>Boston House Price Prediction</h1>
 
-     <!-- Main Input For Receiving Query to our ML -->
-    <form action="{{ url_for('predict')}}"method="post">
-      <input type="text" name="CRIM" placeholder="CRIM" required="required" /><br>
-    	<input type="text" name="ZN" placeholder="ZN" required="required" /><br>
-        <input type="text" name="INDUS" placeholder="INDUS" required="required" /><br>
-        <input type="text" name="CHAS" placeholder="CHAS" required="required" /><br>
-        <input type="text" name="NOX" placeholder="NOX" required="required" /><br>
-        <input type="text" name="RM" placeholder="RM" required="required" /><br>
-        <input type="text" name="Age" placeholder="Age" required="required" /><br>
-        <input type="text" name="DIS" placeholder="DIS" required="required" /><br>
-        <input type="text" name="RAD" placeholder="RAD" required="required" /><br>
-        <input type="text" name="TAX" placeholder="TAX" required="required" /><br>
-        <input type="text" name="PTRATIO" placeholder="PTRATIO" required="required" /><br>
-        <input type="text" name="B" placeholder="B" required="required" /><br>
-        <input type="text" name="LSTAT" placeholder="LSTAT" required="required" /><br>
+            <!-- Main Input For Receiving Query to our ML -->
+            <form action="{{ url_for('predict')}}" method="post">
+                <div class="input-grid">
+                    <div class="form-group">
+                        <label for="CRIM">Crime Rate</label>
+                        <input type="number" step="0.000001" class="form-control" id="CRIM" name="CRIM"
+                            placeholder="e.g., 0.00632" required>
+                        <div class="feature-description">Per capita crime rate by town</div>
+                    </div>
 
-       
+                    <div class="form-group">
+                        <label for="ZN">Residential Land</label>
+                        <input type="number" step="0.01" class="form-control" id="ZN" name="ZN" placeholder="e.g., 18.0"
+                            required>
+                        <div class="feature-description">Proportion of residential land zoned</div>
+                    </div>
 
-        <button type="submit" class="btn btn-primary btn-block btn-large">Predict</button>
-    </form>
+                    <div class="form-group">
+                        <label for="INDUS">Industrial Land</label>
+                        <input type="number" step="0.01" class="form-control" id="INDUS" name="INDUS"
+                            placeholder="e.g., 2.31" required>
+                        <div class="feature-description">Proportion of non-retail business acres</div>
+                    </div>
 
-   <br>
-   <br>
-  
-   
- </div>
- {{prediction_text}}
+                    <div class="form-group">
+                        <label for="CHAS">Charles River</label>
+                        <input type="number" step="1" min="0" max="1" class="form-control" id="CHAS" name="CHAS"
+                            placeholder="0 or 1" required>
+                        <div class="feature-description">Charles River dummy variable (1 if tract bounds river; 0 otherwise)
+                        </div>
+                    </div>
 
+                    <div class="form-group">
+                        <label for="NOX">Nitric Oxides</label>
+                        <input type="number" step="0.000001" class="form-control" id="NOX" name="NOX"
+                            placeholder="e.g., 0.538" required>
+                        <div class="feature-description">Nitric oxides concentration (parts per 10 million)</div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="RM">Average Rooms</label>
+                        <input type="number" step="0.01" class="form-control" id="RM" name="RM" placeholder="e.g., 6.575"
+                            required>
+                        <div class="feature-description">Average number of rooms per dwelling</div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="Age">Building Age</label>
+                        <input type="number" step="0.1" class="form-control" id="Age" name="Age" placeholder="e.g., 65.2"
+                            required>
+                        <div class="feature-description">Proportion of owner-occupied units built prior to 1940</div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="DIS">Employment Centers</label>
+                        <input type="number" step="0.0001" class="form-control" id="DIS" name="DIS"
+                            placeholder="e.g., 4.0900" required>
+                        <div class="feature-description">Weighted distances to employment centres</div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="RAD">Highway Access</label>
+                        <input type="number" step="1" class="form-control" id="RAD" name="RAD" placeholder="e.g., 1"
+                            required>
+                        <div class="feature-description">Index of accessibility to radial highways</div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="TAX">Property Tax</label>
+                        <input type="number" step="1" class="form-control" id="TAX" name="TAX" placeholder="e.g., 296"
+                            required>
+                        <div class="feature-description">Full-value property-tax rate per $10,000</div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="PTRATIO">Pupil-Teacher Ratio</label>
+                        <input type="number" step="0.1" class="form-control" id="PTRATIO" name="PTRATIO"
+                            placeholder="e.g., 15.3" required>
+                        <div class="feature-description">Pupil-teacher ratio by town</div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="B">Black Population</label>
+                        <input type="number" step="0.01" class="form-control" id="B" name="B" placeholder="e.g., 396.90"
+                            required>
+                        <div class="feature-description">1000(Bk - 0.63)² where Bk is the proportion of Black people
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="LSTAT">Lower Status</label>
+                        <input type="number" step="0.01" class="form-control" id="LSTAT" name="LSTAT"
+                            placeholder="e.g., 4.98" required>
+                        <div class="feature-description">% lower status of the population</div>
+                    </div>
+                </div>
+
+                <button type="submit" class="btn">Predict House Price</button>
+            </form>
+
+            {% if prediction_text %}
+            <div class="prediction-result show">
+                {{ prediction_text }}
+            </div>
+            {% endif %}
+        </div>
+    </div>
 </body>
+
 </html>
